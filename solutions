@@ -1,0 +1,32 @@
+🚀 Optimized Single-Pass Solution
+The most efficient way to solve this is to keep track of both the largest and secondLargest elements simultaneously in a single pass (O(N) time complexity) without modifying the original array. 
+We initialize both trackers to Integer.MIN_VALUE to cleanly handle negative integers. 
+java
+class Solution {
+    public int secondLargestElement(int[] nums) {
+        // Edge case: An array must have at least 2 elements to have a second largest
+        if (nums == null || nums.length < 2) {
+            return -1; 
+        }
+
+        int largest = Integer.MIN_VALUE;
+        int secondLargest = Integer.MIN_VALUE;
+
+        for (int num : nums) {
+            if (num > largest) {
+                // The old largest becomes the second largest
+                secondLargest = largest;
+                largest = num;
+            } else if (num > secondLargest && num != largest) {
+                // Current number is between largest and second largest
+                secondLargest = num;
+            }
+        }
+
+        // If secondLargest was never updated, a valid second largest doesn't exist (e.g., [10, 10, 10])
+        return (secondLargest == Integer.MIN_VALUE) ? -1 : secondLargest;
+    }
+}
+
+
+
